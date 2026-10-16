@@ -1,26 +1,162 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens — Lili Almeida
+   Paleta: azul marinho (texto/fundos escuros), turquesa (destaques/CTA),
+   marrom claro "sand" (detalhes/ícones) e creme (fundo claro da página).
+--------------------------------------------------------------------------- */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --navy: #0b1f3a;
+  --navy-deep: #071428;
+  --turquoise: #1bb5ae;
+  --turquoise-soft: #d6f3f1;
+  --sand: #c9a27e;
+  --sand-soft: #f1e6da;
+  --cream: #faf6f1;
+
+  /* Tokens do shadcn apontando para a marca */
+  --background: var(--cream);
+  --foreground: var(--navy);
+  --card: #ffffff;
+  --card-foreground: var(--navy);
+  --popover: #ffffff;
+  --popover-foreground: var(--navy);
+  --primary: var(--turquoise);
+  --primary-foreground: var(--navy-deep);
+  --secondary: var(--sand-soft);
+  --secondary-foreground: var(--navy);
+  --muted: var(--sand-soft);
+  --muted-foreground: #5a6a80;
+  --accent: var(--turquoise-soft);
+  --accent-foreground: var(--navy-deep);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e8dccd;
+  --input: #e8dccd;
+  --ring: var(--turquoise);
+  --radius: 0.625rem;
+
+  --chart-1: var(--turquoise);
+  --chart-2: var(--sand);
+  --chart-3: var(--navy);
+  --chart-4: var(--turquoise-soft);
+  --chart-5: var(--navy-deep);
+
+  --sidebar: var(--cream);
+  --sidebar-foreground: var(--navy);
+  --sidebar-primary: var(--turquoise);
+  --sidebar-primary-foreground: var(--navy-deep);
+  --sidebar-accent: var(--turquoise-soft);
+  --sidebar-accent-foreground: var(--navy-deep);
+  --sidebar-border: #e8dccd;
+  --sidebar-ring: var(--turquoise);
+}
+
+/* A landing page é clara por design. Este bloco existe só para que os
+   componentes do shadcn continuem coerentes caso um tema escuro seja ligado. */
+.dark {
+  --background: var(--navy-deep);
+  --foreground: var(--cream);
+  --card: var(--navy);
+  --card-foreground: var(--cream);
+  --popover: var(--navy);
+  --popover-foreground: var(--cream);
+  --primary: var(--turquoise);
+  --primary-foreground: var(--navy-deep);
+  --secondary: #11294a;
+  --secondary-foreground: var(--cream);
+  --muted: #11294a;
+  --muted-foreground: #9fb0c4;
+  --accent: #11294a;
+  --accent-foreground: var(--turquoise-soft);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: var(--turquoise);
+
+  --sidebar: var(--navy);
+  --sidebar-foreground: var(--cream);
+  --sidebar-primary: var(--turquoise);
+  --sidebar-primary-foreground: var(--navy-deep);
+  --sidebar-accent: #11294a;
+  --sidebar-accent-foreground: var(--turquoise-soft);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: var(--turquoise);
 }
 
 @theme inline {
+  /* Cores de marca → classes utilitárias (bg-navy, text-turquoise, border-sand…) */
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-turquoise: var(--turquoise);
+  --color-turquoise-soft: var(--turquoise-soft);
+  --color-sand: var(--sand);
+  --color-sand-soft: var(--sand-soft);
+  --color-cream: var(--cream);
+
+  /* Tipografia. As variáveis --font-sans e --font-display são injetadas em
+     runtime pelo next/font na className do <html>; o stack literal depois da
+     vírgula é a rede de segurança enquanto a fonte não carrega. */
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+
+  /* Tokens do shadcn */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    @apply font-sans;
+    /* scroll-padding-top mantém as âncoras abaixo do menu fixo (80px) */
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -1,9 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+    // Placeholders usados enquanto as fotos reais não estão em public/images.
+    // TODO: remover quando site.ts deixar de usar placeholders.
+    remotePatterns: [new URL("https://placehold.co/**")],
+  },
   turbopack: {
     rules: {
       "*.css": {

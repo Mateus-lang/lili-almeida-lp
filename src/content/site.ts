@@ -7,7 +7,7 @@
 /** Caminhos das imagens definitivas (precisam existir em public/images). */
 const images = {
   hero: "/images/hero-lili.png",
-  aboutBg: "/images/sobre-bg.jpg",
+  aboutBg: "/images/sobre-bg.png",
   carousel: [
     "/images/carousel-1.jpg",
     "/images/carousel-2.jpg",
@@ -39,8 +39,18 @@ const imagesFallback = {
   og: "https://placehold.co/1200x630/png", // 1.91:1 Open Graph
 } as const;
 
-/** TODO: trocar pela foto real — virar para false quando public/images estiver preenchida. */
-const usePlaceholders = true;
+/**
+ * Chaves cujo arquivo real já está em public/images.
+ * Vire para `true` ao subir cada arquivo — quem estiver em `false` continua
+ * servindo o placeholder, sem 404.
+ */
+const hasRealFile = {
+  hero: true,
+  aboutBg: true, // TODO: sobre-bg.jpg
+  carousel: true, // TODO: carousel-1.jpg … carousel-5.jpg (tudo ou nada)
+  bookCover: false, // TODO: livro-capa.png
+  og: false, // TODO: og.jpg
+};
 
 type Media = {
   hero: string;
@@ -51,7 +61,15 @@ type Media = {
 };
 
 /** Caminhos que os componentes devem consumir. */
-const media: Media = usePlaceholders ? imagesFallback : images;
+const media: Media = {
+  hero: hasRealFile.hero ? images.hero : imagesFallback.hero,
+  aboutBg: hasRealFile.aboutBg ? images.aboutBg : imagesFallback.aboutBg,
+  carousel: hasRealFile.carousel ? images.carousel : imagesFallback.carousel,
+  bookCover: hasRealFile.bookCover
+    ? images.bookCover
+    : imagesFallback.bookCover,
+  og: hasRealFile.og ? images.og : imagesFallback.og,
+};
 
 export const site = {
   links: {
@@ -88,7 +106,7 @@ export const site = {
     /** Precisa ser um trecho exato de `title`: é ele que recebe o destaque e o sublinhado. */
     titleHighlight: "ninguém esquece",
     subtitle:
-      "Sou Lili Almeida, comunicadora baiana. Transformei bons-dias de 15 segundos em mais de 200 milhões de visualizações — e hoje ensino você a encontrar a sua voz.",
+      "Sou Lili Almeida, comunicadora baiana. Transformei bons-dias de 15 segundos em mais de 200 milhões de visualizações, e hoje ensino você a encontrar a sua voz.",
     credentials: ["Apresentadora GNT", "TEDx", "Autora pela Planeta"],
     scrollHint: "Role para conhecer",
     imageAlt: "Lili Almeida, comunicadora e mentora de storytelling",
@@ -97,18 +115,39 @@ export const site = {
   },
 
   about: {
-    eyebrow: "Sobre mim",
-    title: "Eu acredito que ninguém esquece\numa história bem contada",
-    paragraphs: [
-      "Sou Lili Almeida, baiana, comunicadora e apaixonada pelo jeito que as palavras aproximam as pessoas. Aprendi cedo que história não é enfeite: é o que faz alguém confiar em você antes de comprar, contratar ou seguir.",
-      "Hoje ensino profissionais, criadores e lideranças a transformar a própria vivência em comunicação que conecta — com técnica de narrativa, mas sem perder o sotaque, a graça e a verdade de cada um.",
-      "Meu trabalho é tirar da sua boca a frase decorada e devolver a sua voz. O resto é prática — e eu te acompanho nela.",
-    ],
-    imageAlt: "Lili Almeida em uma palestra sobre storytelling",
-    signature: "Lili Almeida",
+    title: "Sobre mim",
+    text: "Sou comunicadora, escritora e cozinheira baiana. Aprendi com minha avó que palavra é alimento — e é isso que levo para a TV, para os palcos e para as redes. Do Mestre do Sabor ao GNT e ao TEDx, sigo espalhando fé, gentileza e esperança para quem cruza o meu caminho.",
     stats: [
-      // TODO: dados reais (anos de experiência, alunos, palestras…)
-      { value: "", label: "" },
+      {
+        icon: "instagram",
+        value: 1.3,
+        decimals: 1,
+        prefix: "",
+        suffix: " mi",
+        label: "seguidores",
+        emptyLabel: "",
+      },
+      {
+        // TODO: [NÚMERO DE ALUNAS] — enquanto for 0, a dobra mostra
+        // "Turma fundadora" no lugar do número.
+        icon: "students",
+        value: 0,
+        decimals: 0,
+        prefix: "+",
+        suffix: "",
+        label: "alunas",
+        emptyLabel: "Turma fundadora",
+      },
+    ],
+    carousel: [
+      { src: media.carousel[0], alt: "Lili Almeida em palestra" },
+      { src: media.carousel[1], alt: "Lili Almeida gravando para a TV" },
+      { src: media.carousel[2], alt: "Lili Almeida no palco do TEDx" },
+      { src: media.carousel[3], alt: "Lili Almeida cozinhando" },
+      {
+        src: media.carousel[4],
+        alt: "Lili Almeida com a plateia depois de um encontro",
+      },
     ],
   },
 

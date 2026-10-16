@@ -176,31 +176,44 @@ export function Hero() {
                 </Word>
               ))}
 
-              <span className="relative inline-block whitespace-nowrap text-turquoise">
-                {accent.map((word, index) => (
-                  <Word key={`a-${index}`} index={accentStart + index}>
-                    {word}
-                  </Word>
-                ))}
+              {/* O destaque quebra linha normalmente: travar a frase inteira com
+                  whitespace-nowrap faria ela estourar a coluna do grid e sumir
+                  atrás da foto. O sublinhado ancora só na última palavra. */}
+              <span className="text-turquoise">
+                {accent.map((word, index) => {
+                  const isLast = index === accent.length - 1;
+                  const node = (
+                    <Word index={accentStart + index}>{word}</Word>
+                  );
 
-                <svg
-                  aria-hidden
-                  viewBox="0 0 200 10"
-                  preserveAspectRatio="none"
-                  className="absolute -bottom-1 left-0 h-[0.16em] w-[calc(100%-0.22em)] overflow-visible"
-                >
-                  <motion.path
-                    d="M2 7 C 52 1, 148 1, 198 6"
-                    fill="none"
-                    stroke="var(--sand)"
-                    strokeWidth={4}
-                    strokeLinecap="round"
-                    vectorEffect="non-scaling-stroke"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.9, ease: easeOut, delay: 1 }}
-                  />
-                </svg>
+                  if (!isLast) return <span key={`a-${index}`}>{node}</span>;
+
+                  return (
+                    <span key={`a-${index}`} className="relative inline-block">
+                      {node}
+                      {/* Offset em `em` para o traço ficar abaixo das descidas
+                          (0.22em nesta fonte) em qualquer tamanho de título. */}
+                      <svg
+                        aria-hidden
+                        viewBox="0 0 200 10"
+                        preserveAspectRatio="none"
+                        className="absolute -bottom-[0.22em] left-0 h-[0.2em] w-[calc(100%-0.22em)] overflow-visible"
+                      >
+                        <motion.path
+                          d="M2 7 C 52 1, 148 1, 198 6"
+                          fill="none"
+                          stroke="var(--sand)"
+                          strokeWidth={3}
+                          strokeLinecap="round"
+                          vectorEffect="non-scaling-stroke"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.9, ease: easeOut, delay: 1 }}
+                        />
+                      </svg>
+                    </span>
+                  );
+                })}
               </span>
 
               {after.map((word, index) => (

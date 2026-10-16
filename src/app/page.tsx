@@ -1,15 +1,15 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { ScrollProgress } from "@/components/motion/scroll-progress";
+import { About } from "@/components/sections/about";
 import { Hero } from "@/components/sections/hero";
 import { site } from "@/content/site";
 
 /**
- * Dobras ainda em placeholder: sobre, curso, livro e grupo.
+ * Dobras ainda em placeholder: curso, livro e grupo.
  * Cada uma virará um componente em src/components/sections/.
  */
 
 const sections = [
-  { id: "sobre", tone: "sand" },
   { id: "curso", tone: "navy" },
   { id: "livro", tone: "cream" },
   { id: "grupo", tone: "navy" },
@@ -29,6 +29,7 @@ export default function Home() {
 
       <main className="flex-1">
         <Hero />
+        <About />
 
         {sections.map(({ id, tone }) => {
           const label = site.nav.items.find((item) => item.href === `#${id}`)

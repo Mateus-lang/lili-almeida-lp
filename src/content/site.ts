@@ -233,19 +233,37 @@ export const site = {
 
   footer: {
     brand: "Lili Almeida",
-    tagline: "Comunicação e storytelling para quem tem algo a dizer.",
+    marquee: [
+      "A gente merece ser feliz agora",
+      "A palavra alimenta",
+      "Conte a sua história",
+      "Fé e gentileza",
+    ],
+    about: "Comunicadora, escritora e storyteller. De Salvador para o Brasil.",
     navTitle: "Navegue",
     socialTitle: "Onde me encontrar",
-    contactTitle: "Contato",
     social: [
-      { label: "Instagram", href: "#" }, // TODO: link real
-      { label: "YouTube", href: "#" }, // TODO: link real
-      { label: "TikTok", href: "#" }, // TODO: link real
+      {
+        label: "Instagram",
+        handle: "@lilialmeida",
+        href: "https://www.instagram.com/lilialmeida/",
+      },
+      {
+        label: "Site",
+        handle: "lilialmeida.com",
+        href: "https://lilialmeida.com",
+      },
     ],
-    // Ano fixo de propósito: new Date() em módulo importado por client component
+    contact: {
+      title: "Contato",
+      label: "Palestras, eventos e imprensa",
+      email: "", // TODO: e-mail de contato — vazio esconde o bloco
+    },
+    // Ano fixo de propósito: new Date() num módulo lido por client component
     // causa divergência de hidratação na virada do ano.
-    legal: "© 2026 Lili Almeida. Todos os direitos reservados.",
-    credits: "", // TODO: crédito de fotos/design, se houver
+    copyright: "© 2026 Lili Almeida. Todos os direitos reservados.",
+    credit: "Desenvolvido por [seu nome]", // TODO: seu nome
+    backToTop: "Voltar ao topo",
   },
 
   images,

@@ -35,16 +35,28 @@ export function About() {
     offset: ["start end", "end start"],
   });
 
-  // Com reduced motion o range vira constante: mesma marcação, sem parallax.
-  const bgScale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    reduced ? [1, 1] : [1.25, 1],
-  );
+  /*
+    O `scale` aqui não é efeito: é a folga que o deslocamento em `y` precisa,
+    senão translação abriria faixa vazia na borda. Por isso os dois andam
+    juntos — 6% de sobra (3% por lado) cobrem um `y` de ±2,5%.
+    Valores maiores (era 1.25/±8%) renderizavam a foto a ~1920 CSS px dentro
+    de 1400, cortando 20% da altura: cabeça cortada e imagem ampliada.
+  */
+  const bgScale = reduced ? 1 : 1.06;
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
-    reduced ? ["0%", "0%"] : ["-8%", "8%"],
+    reduced ? ["0%", "0%"] : ["-2.5%", "2.5%"],
+  );
+  const glowY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduced ? [0, 0] : [-60, 120],
+  );
+  const glowYSoft = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduced ? [0, 0] : [80, -80],
   );
 
   return (
@@ -53,24 +65,67 @@ export function About() {
       id="sobre"
       className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden text-white"
     >
-      <motion.div
-        aria-hidden
-        style={{ scale: bgScale, y: bgY }}
-        className="absolute inset-0"
-      >
-        <Image
-          src={site.media.aboutBg}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-      </motion.div>
-
+      {/* Fundo de marca: é o que aparece atrás do texto no mobile. */}
+      <div aria-hidden className="absolute inset-0 bg-navy-deep" />
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/70 to-navy-deep/10"
+        className="absolute inset-0 bg-[radial-gradient(130%_70%_at_80%_-10%,var(--navy),transparent_65%),radial-gradient(100%_60%_at_0%_110%,color-mix(in_oklab,var(--sand)_22%,transparent),transparent_70%)]"
       />
+      {/* Fio turquesa no topo: separa a dobra da hero. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/60 to-transparent"
+      />
+
+      {/* Brilhos que respiram devagar — vida sem custar legibilidade. */}
+      <motion.div
+        aria-hidden
+        style={{ y: glowY }}
+        animate={{ scale: [1, 1.12, 1], opacity: [0.75, 1, 0.75] }}
+        transition={{ duration: 12, ease: "easeInOut", repeat: Infinity }}
+        className="pointer-events-none absolute top-[6%] -right-[28%] size-[92vw] max-w-[520px] rounded-full bg-turquoise/25 blur-3xl lg:top-auto lg:-bottom-[10%]"
+      />
+      <motion.div
+        aria-hidden
+        style={{ y: glowYSoft }}
+        animate={{ scale: [1, 1.1, 1], opacity: [0.6, 0.9, 0.6] }}
+        transition={{
+          duration: 14,
+          ease: "easeInOut",
+          repeat: Infinity,
+          delay: 1.5,
+        }}
+        className="pointer-events-none absolute bottom-[22%] -left-[30%] size-[82vw] max-w-[460px] rounded-full bg-sand/20 blur-3xl"
+      />
+
+      {/*
+        A foto de fundo é 16:9 (1920x1081) e só entra no lg, onde o container
+        também é landscape. Num retrato de 100svh o object-cover teria de
+        ampliá-la — mostrava 26% da largura esticando 499px de origem para
+        390 CSS px, daí o serrilhado — e no mobile o conteúdo ocupa a dobra
+        inteira, sem espaço para uma faixa. Lá o fundo é o degradê de marca.
+        O `sizes` de 1px evita que o celular baixe uma imagem que não vê.
+      */}
+      <div aria-hidden className="absolute inset-0 hidden lg:block">
+        <motion.div
+          style={{ scale: bgScale, y: bgY }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={site.media.aboutBg}
+            alt=""
+            fill
+            // O corte é horizontal: para cobrir a ALTURA o Next precisa servir
+            // uma variante mais larga que a viewport (altura × 16/9), senão
+            // entrega 570x320 e o browser amplia. O 1px no mobile evita baixar
+            // uma imagem que está em display:none.
+            sizes="(min-width: 1024px) 130vw, 1px"
+            className="object-cover object-center"
+          />
+        </motion.div>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/70 to-navy-deep/10" />
+      </div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pt-32 pb-16 md:px-8 lg:flex lg:items-end lg:justify-between lg:gap-12">
         <motion.div

@@ -152,84 +152,83 @@ export const site = {
   },
 
   course: {
-    eyebrow: "O curso",
-    name: "", // TODO: nome real do curso
-    title: "O método para contar histórias que ficam",
-    description:
-      "Um caminho guiado para você sair do “não sei o que falar” e chegar a uma narrativa sua, afiada e pronta para usar em qualquer palco: reunião, vídeo, palco de verdade ou um story de celular.",
-    modules: [
-      {
-        title: "Escuta e matéria-prima",
-        description:
-          "Como garimpar nas suas próprias memórias as histórias que merecem ser contadas.",
-      },
-      {
-        title: "Estrutura narrativa",
-        description:
-          "Começo, tensão e virada: o esqueleto que sustenta qualquer boa história.",
-      },
-      {
-        title: "Voz e presença",
-        description:
-          "Ritmo, pausa e corpo — o que transforma um texto bom em uma fala inesquecível.",
-      },
-      {
-        title: "Storytelling aplicado",
-        description:
-          "Adaptando a mesma história para venda, aula, entrevista e redes sociais.",
-      },
+    eyebrow: "Turma fundadora",
+    title: "A história que só você pode contar",
+    /**
+     * Quebra manual: CSS não conta para o JS onde a linha quebrou, e a
+     * revelação é linha a linha. `title` segue inteiro no aria-label.
+     */
+    titleLines: ["A história que", "só você", "pode contar"],
+    titleHighlight: "você",
+    subtitle:
+      "Sua comunicação define o lugar que você ocupa. Aqui eu te ensino a transformar as suas vivências em histórias que conectam, emocionam e fazem quem te escuta lembrar de você.",
+    // TODO: confirmar os bullets com a Lili
+    bullets: [
+      "Descubra a história-assinatura que só você tem",
+      "Estruture narrativas com começo, meio e virada",
+      "Fale com verdade nas redes, no palco e no trabalho",
+      "Ganhe segurança para usar a sua própria voz",
     ],
-    forWho: {
-      title: "Para quem é",
-      items: [
-        "Quem precisa falar em público e trava na hora",
-        "Quem vende e quer ser lembrado, não só ouvido",
-        "Quem ensina, lidera ou cria conteúdo",
-        "Quem tem muita história e nenhuma organização",
+    /** O href vem de links.courseCheckout. */
+    cta: { label: "Quero entrar na turma" },
+    mockup: {
+      lessonTag: "Aula 1",
+      lessonTitle: "Sua história-assinatura",
+      modulesTitle: "Módulos",
+      modules: [
+        "Raízes: de onde vem a sua voz",
+        "Estrutura: começo, meio e virada",
+        "Palco: contar ao vivo e nas redes",
       ],
+      badgeLive: "Ao vivo com a Lili",
+      badgeCommunity: "Comunidade de alunas",
+      avatars: ["L", "M", "J"],
     },
-    price: "", // TODO: preço real
-    priceNote: "", // TODO: condição real (parcelamento, lote, prazo)
-    cta: { label: "Quero garantir minha vaga", href: "#" }, // TODO: link real do checkout
   },
 
   book: {
-    eyebrow: "O livro",
-    name: "", // TODO: título real do livro
-    title: "Para ler com caneta na mão",
-    description:
-      "Um livro sobre o ofício de contar: as histórias que me formaram, os erros que me ensinaram e os exercícios que eu uso até hoje antes de subir em qualquer palco.",
-    topics: [
-      "Histórias e bastidores de quem vive de comunicar",
-      "Exercícios curtos no fim de cada capítulo",
-      "Um guia para voltar sempre que faltar assunto",
-    ],
-    coverAlt: "Capa do livro de Lili Almeida",
-    cta: { label: "Quero meu exemplar", href: "#" }, // TODO: link real de compra
+    eyebrow: "Meu primeiro livro",
+    title: "A gente merece ser feliz agora",
+    lead: "101 reflexões para lembrar quem você é, num mundo que vive tentando te fazer esquecer.",
+    body: "Minhas mensagens de bom-dia viraram livro. Em cada página, o olhar de quem observa a vida se mistura a ditados, músicas, trechos de grandes obras e frases de personagens da história — um convite para você acender a sua luz e iluminar também o caminho de quem cruza o seu.",
+    quote:
+      "Quer um conselho? Como vão julgar você de qualquer jeito, siga seu coração e faça o que te faz feliz.",
+    tagline: "A palavra alimenta.",
+    chips: ["101 reflexões", "Selo Academia", "Editora Planeta"],
+    /** Número gigante do fundo, puramente decorativo. */
+    backdropNumber: "101",
+    coverAlt:
+      "Capa do livro A gente merece ser feliz agora, de Lili Almeida",
+    /** O href vem de links.bookPurchase. */
+    cta: { label: "Quero meu exemplar" },
   },
 
   community: {
-    eyebrow: "A comunidade",
-    title: "Contar histórias se aprende\nem roda, não sozinha",
-    description:
-      "Um grupo para praticar sem medo de errar: desafios de narrativa, devolutivas sinceras e gente querendo melhorar junto, toda semana.",
+    eyebrow: "Comunidade gratuita",
+    title: "Comece o dia com uma palavra que alimenta.",
+    /** Precisa ser um trecho exato de `title`: é ele que sai em turquesa. */
+    titleHighlight: "palavra que alimenta",
+    subtitle:
+      "Entre no grupo da Lili no WhatsApp e receba, direto no seu celular, mensagens de fé, gentileza e coragem — e fique sabendo antes de todo mundo das novas turmas, lançamentos e encontros.",
     benefits: [
-      {
-        title: "Desafios semanais",
-        description: "Um exercício curto por semana para manter a prática viva.",
-      },
-      {
-        title: "Devolutiva de verdade",
-        description:
-          "Você conta, a roda escuta e devolve o que funcionou e o que ainda não.",
-      },
-      {
-        title: "Encontros ao vivo",
-        description: "Conversas abertas para destravar dúvidas e treinar fala.",
-      },
+      { icon: "Sun", text: "Bons-dias para começar o dia com o coração leve" },
+      { icon: "Bell", text: "Avisos de turmas e lançamentos em primeira mão" },
+      { icon: "Sparkles", text: "Bastidores e conteúdos que não vão para o feed" },
     ],
-    galleryAlt: "Encontro da comunidade de storytelling",
-    cta: { label: "Quero entrar no grupo", href: "#" }, // TODO: link real do grupo
+    /** O href vem de links.whatsapp. */
+    cta: { label: "Quero entrar no grupo" },
+    microcopy: "É gratuito e você sai quando quiser.",
+    chat: {
+      groupName: "Bom dia com a Lili",
+      groupMeta: "Lili Almeida, você e mais pessoas",
+      avatarInitials: "LA",
+      messages: [
+        "Bom dia, minha gente! ☀️",
+        "Hoje eu só quero te lembrar de uma coisa…",
+        "A gente merece ser feliz agora. Não depois. Agora. 💛",
+      ],
+      reaction: "💛 128",
+    },
   },
 
   footer: {

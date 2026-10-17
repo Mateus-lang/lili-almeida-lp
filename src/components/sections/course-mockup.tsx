@@ -48,7 +48,11 @@ function Floating({
     >
       <motion.div
         animate={still ? undefined : { y: [0, -10, 0] }}
-        transition={{ duration, ease: "easeInOut", repeat: Infinity }}
+        transition={{
+          duration,
+          ease: "easeInOut",
+          repeat: Infinity,
+        }}
       >
         {children}
       </motion.div>
@@ -68,11 +72,19 @@ export function CourseMockup() {
   });
 
   const rotate = useSpring(
-    useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [-4, 4]),
+    useTransform(
+      scrollYProgress,
+      [0, 1],
+      reduced ? [0, 0] : [-4, 4],
+    ),
     SPRING,
   );
   const y = useSpring(
-    useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [40, -40]),
+    useTransform(
+      scrollYProgress,
+      [0, 1],
+      reduced ? [0, 0] : [40, -40],
+    ),
     SPRING,
   );
 
@@ -106,9 +118,18 @@ export function CourseMockup() {
                 <Play className="size-5 translate-x-px fill-current" />
                 <motion.span
                   animate={
-                    parado ? undefined : { scale: [1, 1.6], opacity: [0.6, 0] }
+                    parado
+                      ? undefined
+                      : {
+                          scale: [1, 1.6],
+                          opacity: [0.6, 0],
+                        }
                   }
-                  transition={{ duration: 2, ease: "easeOut", repeat: Infinity }}
+                  transition={{
+                    duration: 2,
+                    ease: "easeOut",
+                    repeat: Infinity,
+                  }}
                   className="absolute inset-0 rounded-full ring-2 ring-turquoise"
                 />
               </span>
@@ -123,7 +144,11 @@ export function CourseMockup() {
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 0.62 }}
                   viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 1.2, ease: easeOut, delay: 0.5 }}
+                  transition={{
+                    duration: 1.2,
+                    ease: easeOut,
+                    delay: 0.5,
+                  }}
                   className="h-full w-full origin-left rounded-full bg-turquoise"
                 />
               </div>
@@ -158,7 +183,10 @@ export function CourseMockup() {
                   className="flex items-start gap-2.5 text-xs text-navy md:text-sm"
                 >
                   <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full bg-turquoise text-navy-deep">
-                    <Check className="size-3" strokeWidth={3} />
+                    <Check
+                      className="size-3"
+                      strokeWidth={3}
+                    />
                   </span>
                   {item}
                 </motion.li>
@@ -177,8 +205,16 @@ export function CourseMockup() {
         >
           <div className="flex items-center gap-2 rounded-full bg-white px-3 py-2 shadow-lg">
             <motion.span
-              animate={reduced ? undefined : { opacity: [1, 0.25, 1] }}
-              transition={{ duration: 1.6, ease: "easeInOut", repeat: Infinity }}
+              animate={
+                reduced
+                  ? undefined
+                  : { opacity: [1, 0.25, 1] }
+              }
+              transition={{
+                duration: 1.6,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
               className="size-2 shrink-0 rounded-full bg-red-500"
             />
             <span className="truncate text-[11px] font-semibold text-navy">
@@ -189,19 +225,21 @@ export function CourseMockup() {
 
         {/* Selo: comunidade */}
         <Floating
-          className="absolute right-0 bottom-16 max-w-[70%]"
+          className="absolute right-0 bottom-25 max-w-[70%] lg:bottom-16"
           from={{ x: 60 }}
           delay={0.5}
           duration={6.5}
           still={parado}
         >
-          <div className="flex items-center gap-2.5 rounded-full bg-white px-3 py-2 shadow-lg">
+          <div className="flex items-center gap-5 rounded-full bg-white px-3 py-2 shadow-lg">
             <span className="flex -space-x-2">
               {mockup.avatars.map((initial, index) => (
                 <span
                   key={initial}
                   className={`grid size-6 place-items-center rounded-full text-[10px] font-bold text-white ring-2 ring-white ${
-                    ["bg-sand", "bg-turquoise", "bg-navy"][index % 3]
+                    ["bg-sand", "bg-turquoise", "bg-navy"][
+                      index % 3
+                    ]
                   }`}
                 >
                   {initial}

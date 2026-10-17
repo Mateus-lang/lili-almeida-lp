@@ -157,7 +157,9 @@ export function Hero() {
       <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-6xl grid-rows-[auto_1fr] gap-8 px-5 pt-24 md:px-8 lg:grid-cols-2 lg:grid-rows-1 lg:items-center lg:gap-10 lg:pt-28">
         <motion.div
           style={{ y: textY, opacity: textOpacity }}
-          className="max-w-xl will-change-transform"
+          // z-10 é necessário: a foto vem depois no DOM e, sem isso, pintaria
+          // por cima do texto no mobile. No desktop as colunas não se tocam.
+          className="relative z-10 max-w-xl will-change-transform"
         >
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -253,12 +255,22 @@ export function Hero() {
           </motion.ul>
         </motion.div>
 
+        {/* Véu só no mobile, entre a foto (z-0) e o texto (z-10): escurece a
+            faixa de cima, onde o subtítulo cruza o rosto. Sem ele o contraste
+            no ponto mais claro era 3,75:1, abaixo do mínimo AA. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[72svh] bg-gradient-to-b from-navy-deep/40 via-navy-deep/20 to-transparent lg:hidden"
+        />
+
         <motion.div
           style={{ y: photoY }}
-          // No mobile a foto ocupa o que sobra da dobra (a imagem é
-          // object-contain, então encolhe junto) em vez de somar uma altura
-          // fixa e empurrar o indicador de scroll para fora da tela.
-          className="relative h-full min-h-0 w-full self-end will-change-transform lg:h-[85svh]"
+          // No mobile a foto sai do fluxo do grid e vira fundo do texto: como
+          // item do grid ela dividia a altura e sobrava ~36% da dobra. Absoluta
+          // ela ocupa 72svh, com opacidade baixa para o texto continuar legível
+          // e pointer-events-none para não interceptar toque. No lg volta a ser
+          // a coluna da direita, inteira e opaca.
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[72svh] opacity-40 will-change-transform lg:pointer-events-auto lg:relative lg:inset-auto lg:z-auto lg:h-[85svh] lg:min-h-0 lg:self-end lg:opacity-100"
         >
           <motion.div
             initial={{ opacity: 0, scale: 1.08, clipPath: "inset(100% 0 0 0)" }}
@@ -272,7 +284,9 @@ export function Hero() {
               fill
               priority
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-contain object-bottom"
+              // No mobile a foto encosta no canto inferior direito, deixando a
+              // esquerda livre para o texto. No lg volta a centralizar na coluna.
+              className="object-contain object-right-bottom lg:object-bottom"
             />
           </motion.div>
         </motion.div>

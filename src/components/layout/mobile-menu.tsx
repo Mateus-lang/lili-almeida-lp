@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { site } from "@/content/site";
 import { easeOut } from "@/lib/motion";
@@ -32,17 +32,28 @@ const item = {
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const botao = useRef<HTMLButtonElement>(null);
+
+  /**
+   * Fechar sem navegar (Esc, breakpoint) devolve o foco ao botão — senão ele
+   * cai no <body>. No clique em link não: o usuário quer ir para a seção,
+   * e roubar o foco de volta para o menu atrapalharia a navegação.
+   */
+  const fechar = useCallback(() => {
+    setOpen(false);
+    botao.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (!open) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") fechar();
     };
 
     const desktop = window.matchMedia(DESKTOP_QUERY);
     const onBreakpoint = (event: MediaQueryListEvent) => {
-      if (event.matches) setOpen(false);
+      if (event.matches) fechar();
     };
 
     // Guarda o valor anterior em vez de assumir "" ao restaurar.
@@ -57,17 +68,18 @@ export function MobileMenu() {
       desktop.removeEventListener("change", onBreakpoint);
       document.body.style.overflow = previousOverflow;
     };
-  }, [open]);
+  }, [open, fechar]);
 
   return (
     <div className="lg:hidden">
       <button
+        ref={botao}
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-label={open ? site.nav.closeLabel : site.nav.menuLabel}
         aria-expanded={open}
         aria-controls="mobile-menu"
-        className="relative z-50 grid size-11 place-items-center text-white"
+        className="relative z-50 grid size-11 place-items-center text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-turquoise"
       >
         <span className="sr-only">
           {open ? site.nav.closeLabel : site.nav.menuLabel}

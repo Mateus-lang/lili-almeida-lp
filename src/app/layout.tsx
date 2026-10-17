@@ -23,13 +23,11 @@ export const metadata: Metadata = {
   // Obrigatório: sem metadataBase, o caminho relativo da imagem de OG
   // quebra a build no Next 16.
   metadataBase: new URL(site.links.siteUrl),
-  title: "Lili Almeida | Storytelling",
-  description:
-    "Mentoria de comunicação e storytelling para quem quer contar a própria história com verdade, presença e estratégia.",
+  title: site.meta.title,
+  description: site.meta.description,
   openGraph: {
-    title: "Lili Almeida | Storytelling",
-    description:
-      "Mentoria de comunicação e storytelling para quem quer contar a própria história com verdade, presença e estratégia.",
+    title: site.meta.title,
+    description: site.meta.description,
     url: "/",
     siteName: "Lili Almeida",
     locale: "pt_BR",

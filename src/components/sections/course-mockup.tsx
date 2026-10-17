@@ -1,7 +1,14 @@
 "use client";
 
 import { Check, Play } from "lucide-react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 
@@ -52,6 +59,8 @@ function Floating({
 export function CourseMockup() {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
+  const inView = useInView(ref, { amount: 0.2 });
+  const parado = reduced || !inView;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -73,14 +82,17 @@ export function CourseMockup() {
       aria-hidden="true"
       className="relative h-[440px] w-full select-none lg:h-[470px]"
     >
-      <motion.div style={{ rotate, y }} className="absolute inset-0">
+      <motion.div
+        style={{ rotate, y }}
+        className="absolute inset-0 will-change-transform"
+      >
         {/* Player */}
         <Floating
           className="absolute inset-x-0 top-0"
           from={{ y: 60 }}
           delay={0}
           duration={5}
-          still={reduced}
+          still={parado}
         >
           <div className="relative aspect-video w-full overflow-hidden rounded-3xl bg-gradient-to-br from-navy to-navy-deep shadow-2xl">
             <div className="absolute inset-x-0 top-0 flex items-center gap-2 p-4 md:p-5">
@@ -94,7 +106,7 @@ export function CourseMockup() {
                 <Play className="size-5 translate-x-px fill-current" />
                 <motion.span
                   animate={
-                    reduced ? undefined : { scale: [1, 1.6], opacity: [0.6, 0] }
+                    parado ? undefined : { scale: [1, 1.6], opacity: [0.6, 0] }
                   }
                   transition={{ duration: 2, ease: "easeOut", repeat: Infinity }}
                   className="absolute inset-0 rounded-full ring-2 ring-turquoise"
@@ -125,7 +137,7 @@ export function CourseMockup() {
           from={{ x: -60 }}
           delay={0.2}
           duration={6}
-          still={reduced}
+          still={parado}
         >
           <div className="rounded-2xl bg-white p-4 shadow-xl md:p-5">
             <p className="text-[10px] font-semibold tracking-widest text-navy/50 uppercase">
@@ -161,7 +173,7 @@ export function CourseMockup() {
           from={{ x: 60 }}
           delay={0.35}
           duration={7}
-          still={reduced}
+          still={parado}
         >
           <div className="flex items-center gap-2 rounded-full bg-white px-3 py-2 shadow-lg">
             <motion.span
@@ -181,7 +193,7 @@ export function CourseMockup() {
           from={{ x: 60 }}
           delay={0.5}
           duration={6.5}
-          still={reduced}
+          still={parado}
         >
           <div className="flex items-center gap-2.5 rounded-full bg-white px-3 py-2 shadow-lg">
             <span className="flex -space-x-2">

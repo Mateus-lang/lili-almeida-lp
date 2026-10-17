@@ -3,6 +3,7 @@
 import {
   motion,
   useAnimationFrame,
+  useInView,
   useMotionValue,
   useReducedMotion,
   useScroll,
@@ -19,7 +20,11 @@ import { site } from "@/content/site";
 const BASE_SPEED = 2.5;
 
 export function FooterMarquee() {
+  const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
+  // O callback roda a cada frame: sem este guarda, a faixa consome CPU
+  // durante a página inteira, mesmo com o rodapé fora da tela.
+  const inView = useInView(ref, { amount: 0.1 });
 
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
@@ -41,7 +46,7 @@ export function FooterMarquee() {
   const direction = useRef(1);
 
   useAnimationFrame((_, delta) => {
-    if (reduced) return;
+    if (reduced || !inView) return;
 
     let move = ((-BASE_SPEED * delta) / 1000) * direction.current;
 
@@ -55,7 +60,7 @@ export function FooterMarquee() {
   });
 
   return (
-    <div className="overflow-hidden border-b border-white/10 py-6">
+    <div ref={ref} className="overflow-hidden border-b border-white/10 py-6">
       <motion.div style={{ x, skewX }} className="flex w-max">
         {[0, 1].map((copy) => (
           <div key={copy} aria-hidden={copy === 1} className="flex shrink-0">

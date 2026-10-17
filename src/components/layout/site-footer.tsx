@@ -35,7 +35,7 @@ function FooterLink({
       {...(external
         ? { target: "_blank", rel: "noopener noreferrer" }
         : undefined)}
-      className="group relative inline-flex items-center gap-2 py-1 text-white/70 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
+      className="group relative inline-flex min-h-11 items-center gap-2 py-1 text-white/70 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
     >
       {children}
       <span

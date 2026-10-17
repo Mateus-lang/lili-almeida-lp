@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import type { MotionValue } from "motion/react";
 import { useRef } from "react";
 
@@ -13,12 +18,15 @@ function Word({
   children,
   progress,
   range,
+  dim,
 }: {
   children: string;
   progress: MotionValue<number>;
   range: [number, number];
+  /** Opacidade inicial. Com movimento reduzido a palavra já nasce acesa. */
+  dim: number;
 }) {
-  const opacity = useTransform(progress, range, [0.15, 1]);
+  const opacity = useTransform(progress, range, [dim, 1]);
 
   return (
     <motion.span style={{ opacity }} className="mr-[0.25em] inline-block">
@@ -36,6 +44,9 @@ export function ScrollRevealText({
   className?: string;
 }) {
   const ref = useRef<HTMLQuoteElement>(null);
+  // O MotionConfig não cobre opacidade, então sem este guarda a citação
+  // ficaria em 15% para quem pediu menos movimento.
+  const reduced = useReducedMotion() ?? false;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -57,6 +68,7 @@ export function ScrollRevealText({
             key={`${word}-${index}`}
             progress={scrollYProgress}
             range={[index / words.length, (index + 1) / words.length]}
+            dim={reduced ? 1 : 0.15}
           >
             {word}
           </Word>

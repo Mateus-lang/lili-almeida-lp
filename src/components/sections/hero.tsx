@@ -3,6 +3,7 @@
 import { Mouse } from "lucide-react";
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -79,6 +80,8 @@ function Word({ children, index }: { children: string; index: number }) {
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion() ?? false;
+  const inView = useInView(ref, { amount: 0.2 });
+  const animar = inView && !reduced;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -146,7 +149,7 @@ export function Hero() {
       <motion.span
         aria-hidden
         style={{ x: wordX }}
-        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 font-display text-[22vw] leading-none font-extrabold text-transparent select-none [-webkit-text-stroke:1px_rgba(255,255,255,0.08)]"
+        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 font-display text-[22vw] leading-none font-extrabold text-transparent select-none will-change-transform [-webkit-text-stroke:1px_rgba(255,255,255,0.08)]"
       >
         {site.hero.backdropWord}
       </motion.span>
@@ -154,7 +157,7 @@ export function Hero() {
       <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-6xl grid-rows-[auto_1fr] gap-8 px-5 pt-24 md:px-8 lg:grid-cols-2 lg:grid-rows-1 lg:items-center lg:gap-10 lg:pt-28">
         <motion.div
           style={{ y: textY, opacity: textOpacity }}
-          className="max-w-xl"
+          className="max-w-xl will-change-transform"
         >
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -255,7 +258,7 @@ export function Hero() {
           // No mobile a foto ocupa o que sobra da dobra (a imagem é
           // object-contain, então encolhe junto) em vez de somar uma altura
           // fixa e empurrar o indicador de scroll para fora da tela.
-          className="relative h-full min-h-0 w-full self-end lg:h-[85svh]"
+          className="relative h-full min-h-0 w-full self-end will-change-transform lg:h-[85svh]"
         >
           <motion.div
             initial={{ opacity: 0, scale: 1.08, clipPath: "inset(100% 0 0 0)" }}
@@ -284,7 +287,7 @@ export function Hero() {
         <span className="inline-flex items-center gap-2 rounded-full bg-navy-deep/40 px-3 py-1.5 text-xs text-white/60 backdrop-blur-sm">
           {site.hero.scrollHint}
           <motion.span
-            animate={{ y: [0, 6, 0] }}
+            animate={animar ? { y: [0, 6, 0] } : undefined}
             transition={{ duration: 1.6, ease: "easeInOut", repeat: Infinity }}
             className="inline-flex"
           >

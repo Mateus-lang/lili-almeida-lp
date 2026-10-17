@@ -1,7 +1,13 @@
 "use client";
 
 import { GraduationCap } from "lucide-react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  useInView,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import type { Variants } from "motion/react";
 import Image from "next/image";
 import { FaInstagram } from "react-icons/fa";
@@ -29,6 +35,9 @@ const titleReveal: Variants = {
 export function About() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion() ?? false;
+  // Sem `once`: os loops param quando a dobra sai da tela.
+  const inView = useInView(ref, { amount: 0.2 });
+  const animar = inView && !reduced;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -81,14 +90,14 @@ export function About() {
       <motion.div
         aria-hidden
         style={{ y: glowY }}
-        animate={{ scale: [1, 1.12, 1], opacity: [0.75, 1, 0.75] }}
+        animate={animar ? { scale: [1, 1.12, 1], opacity: [0.75, 1, 0.75] } : undefined}
         transition={{ duration: 12, ease: "easeInOut", repeat: Infinity }}
         className="pointer-events-none absolute top-[6%] -right-[28%] size-[92vw] max-w-[520px] rounded-full bg-turquoise/25 blur-3xl lg:top-auto lg:-bottom-[10%]"
       />
       <motion.div
         aria-hidden
         style={{ y: glowYSoft }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.6, 0.9, 0.6] }}
+        animate={animar ? { scale: [1, 1.1, 1], opacity: [0.6, 0.9, 0.6] } : undefined}
         transition={{
           duration: 14,
           ease: "easeInOut",
@@ -109,7 +118,7 @@ export function About() {
       <div aria-hidden className="absolute inset-0 hidden lg:block">
         <motion.div
           style={{ scale: bgScale, y: bgY }}
-          className="absolute inset-0"
+          className="absolute inset-0 will-change-transform"
         >
           <Image
             src={site.media.aboutBg}
@@ -160,7 +169,11 @@ export function About() {
           >
             {site.about.stats.map((stat) => {
               const Icon = icons[stat.icon];
-              const isEmpty = stat.value === 0;
+              // `site.ts` é `as const`, então o valor chega como tipo literal.
+              // Alargar para number mantém a comparação possível — e o
+              // fallback volta a funcionar se o número for zerado.
+              const valor: number = stat.value;
+              const isEmpty = valor === 0;
 
               return (
                 <li key={stat.label} className="flex items-center gap-3">

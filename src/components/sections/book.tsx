@@ -52,7 +52,7 @@ export function Book() {
       <motion.span
         aria-hidden
         style={{ y: numberY }}
-        className="pointer-events-none absolute top-1/2 -right-6 -translate-y-1/2 font-display text-[40vw] leading-none font-extrabold text-white/[0.04] select-none lg:text-[22rem]"
+        className="pointer-events-none absolute top-1/2 -right-6 -translate-y-1/2 font-display text-[40vw] leading-none font-extrabold text-white/[0.04] select-none will-change-transform lg:text-[22rem]"
       >
         {book.backdropNumber}
       </motion.span>

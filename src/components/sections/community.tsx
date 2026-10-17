@@ -1,10 +1,10 @@
 "use client";
 
 import { Bell, Sparkles, Sun } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import type { Variants } from "motion/react";
 import { FaWhatsapp } from "react-icons/fa";
-import type { ComponentType } from "react";
+import { useRef, type ComponentType } from "react";
 
 import { PhoneChat } from "@/components/sections/phone-chat";
 import { CtaButton } from "@/components/ui/cta-button";
@@ -33,17 +33,21 @@ const [titleBefore, titleAfter] = community.title.split(
 );
 
 export function Community() {
+  const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion() ?? false;
+  const inView = useInView(ref, { amount: 0.2 });
+  const animar = inView && !reduced;
 
   return (
     <section
+      ref={ref}
       id="grupo"
       className="relative overflow-hidden bg-sand-soft py-24 text-navy lg:py-32"
     >
       {/* Anel decorativo atrás do celular. */}
       <motion.div
         aria-hidden
-        animate={reduced ? undefined : { rotate: 360 }}
+        animate={animar ? { rotate: 360 } : undefined}
         transition={{ duration: 60, ease: "linear", repeat: Infinity }}
         className="pointer-events-none absolute top-1/2 left-1/2 size-[90vw] max-w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-sand/50 lg:left-[72%]"
       />
@@ -110,7 +114,7 @@ export function Community() {
             </CtaButton>
           </motion.div>
 
-          <motion.p variants={fadeUp} className="mt-4 text-sm text-navy/60">
+          <motion.p variants={fadeUp} className="mt-4 text-sm text-navy/70">
             {community.microcopy}
           </motion.p>
         </motion.div>

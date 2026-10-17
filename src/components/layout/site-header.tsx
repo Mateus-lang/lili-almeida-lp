@@ -42,7 +42,7 @@ export function SiteHeader() {
         <a
           href={site.nav.homeHref}
           // z-50 mantém a marca acima do overlay do menu mobile (z-40).
-          className="relative z-50 font-display text-lg font-extrabold tracking-tight"
+          className="relative z-50 inline-flex h-11 items-center font-display text-lg font-extrabold tracking-tight"
         >
           {site.nav.brand}
           <span className="text-turquoise">.</span>

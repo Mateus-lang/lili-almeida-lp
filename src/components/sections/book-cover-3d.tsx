@@ -104,6 +104,7 @@ export function BookCover3D({ className }: { className?: string }) {
           rotateX: scrollRotateX,
           transformStyle: "preserve-3d",
         }}
+        className="will-change-transform"
       >
         <motion.div
           style={{ rotateX: tiltX, rotateY: tiltY, transformStyle: "preserve-3d" }}

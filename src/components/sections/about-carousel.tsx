@@ -95,7 +95,7 @@ export function AboutCarousel({ className }: { className?: string }) {
               aria-label={`Ir para o slide ${index + 1}`}
               aria-current={isActive}
               // Alvo de toque de 44px com o traço desenhado dentro.
-              className="grid h-11 w-8 place-items-center"
+              className="grid size-11 place-items-center"
             >
               <motion.span
                 layout

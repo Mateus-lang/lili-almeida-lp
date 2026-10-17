@@ -46,9 +46,9 @@ const imagesFallback = {
  */
 const hasRealFile = {
   hero: true,
-  aboutBg: true, // TODO: sobre-bg.jpg
-  carousel: true, // TODO: carousel-1.jpg … carousel-5.jpg (tudo ou nada)
-  bookCover: false, // TODO: livro-capa.png
+  aboutBg: true,
+  carousel: true, // tudo ou nada: as 5 trocam juntas
+  bookCover: true,
   og: false, // TODO: og.jpg
 };
 
@@ -62,9 +62,15 @@ type Media = {
 
 /** Caminhos que os componentes devem consumir. */
 const media: Media = {
-  hero: hasRealFile.hero ? images.hero : imagesFallback.hero,
-  aboutBg: hasRealFile.aboutBg ? images.aboutBg : imagesFallback.aboutBg,
-  carousel: hasRealFile.carousel ? images.carousel : imagesFallback.carousel,
+  hero: hasRealFile.hero
+    ? images.hero
+    : imagesFallback.hero,
+  aboutBg: hasRealFile.aboutBg
+    ? images.aboutBg
+    : imagesFallback.aboutBg,
+  carousel: hasRealFile.carousel
+    ? images.carousel
+    : imagesFallback.carousel,
   bookCover: hasRealFile.bookCover
     ? images.bookCover
     : imagesFallback.bookCover,
@@ -72,16 +78,23 @@ const media: Media = {
 };
 
 export const site = {
+  meta: {
+    title: "Lili Almeida | Storytelling",
+    description:
+      "Mentoria de comunicação e storytelling para quem quer contar a própria história com verdade, presença e estratégia.",
+  },
+
   links: {
     siteUrl: "https://lilialmeida.com.br", // TODO: domínio real
-    instagram: "#", // TODO: link real
-    youtube: "#", // TODO: link real
+    instagram: "https://www.instagram.com/lilialmeida/",
+    youtube: "https://www.youtube.com/@ChefLiliAlmeida",
     tiktok: "#", // TODO: link real
     linkedin: "#", // TODO: link real
     whatsapp: "#", // TODO: link real
     email: "", // TODO: e-mail real de contato
     courseCheckout: "#", // TODO: link real do checkout do curso
-    bookPurchase: "#", // TODO: link real de compra do livro
+    bookPurchase:
+      "https://www.amazon.com.br/gente-merece-ser-feliz-agora/dp/8542227417?mcid=feb83bde217f31cfa45c09a34bac9664&hvadid=709857900159&hvpos=&hvnetw=g&hvrand=353927069252161044&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9101289&hvtargid=pla-2321962132944&psc=1&hvocijid=353927069252161044-8542227417-&hvexpln=0&linkCode=sl2&tag=lilialmeida0c-20&linkId=8c1cf8d0f8f007448c833f61278bcf41&ref_=as_li_ss_tl",
     communityInvite: "#", // TODO: link real de entrada no grupo
   },
 
@@ -101,15 +114,22 @@ export const site = {
   },
 
   hero: {
-    eyebrow: "Storytelling · Comunicação · Palavra que alimenta",
-    title: "Conte a sua história de um jeito que ninguém esquece.",
+    eyebrow:
+      "Storytelling · Comunicação · Palavra que alimenta",
+    title:
+      "Conte a sua história de um jeito que ninguém esquece.",
     /** Precisa ser um trecho exato de `title`: é ele que recebe o destaque e o sublinhado. */
     titleHighlight: "ninguém esquece",
     subtitle:
       "Sou Lili Almeida, comunicadora baiana. Transformei bons-dias de 15 segundos em mais de 200 milhões de visualizações, e hoje ensino você a encontrar a sua voz.",
-    credentials: ["Apresentadora GNT", "TEDx", "Autora pela Planeta"],
+    credentials: [
+      "Apresentadora GNT",
+      "TEDx",
+      "Autora pela Planeta",
+    ],
     scrollHint: "Role para conhecer",
-    imageAlt: "Lili Almeida, comunicadora e mentora de storytelling",
+    imageAlt:
+      "Lili Almeida, comunicadora e mentora de storytelling",
     /** Palavra gigante de fundo, puramente decorativa. */
     backdropWord: "HISTÓRIA",
   },
@@ -128,10 +148,10 @@ export const site = {
         emptyLabel: "",
       },
       {
-        // TODO: [NÚMERO DE ALUNAS] — enquanto for 0, a dobra mostra
-        // "Turma fundadora" no lugar do número.
+        // Se este valor voltar a 0, a dobra mostra `emptyLabel` no lugar
+        // do número.
         icon: "students",
-        value: 0,
+        value: 497,
         decimals: 0,
         prefix: "+",
         suffix: "",
@@ -140,10 +160,22 @@ export const site = {
       },
     ],
     carousel: [
-      { src: media.carousel[0], alt: "Lili Almeida em palestra" },
-      { src: media.carousel[1], alt: "Lili Almeida gravando para a TV" },
-      { src: media.carousel[2], alt: "Lili Almeida no palco do TEDx" },
-      { src: media.carousel[3], alt: "Lili Almeida cozinhando" },
+      {
+        src: media.carousel[0],
+        alt: "Lili Almeida em palestra",
+      },
+      {
+        src: media.carousel[1],
+        alt: "Lili Almeida gravando para a TV",
+      },
+      {
+        src: media.carousel[2],
+        alt: "Lili Almeida no palco do TEDx",
+      },
+      {
+        src: media.carousel[3],
+        alt: "Lili Almeida cozinhando",
+      },
       {
         src: media.carousel[4],
         alt: "Lili Almeida com a plateia depois de um encontro",
@@ -158,7 +190,11 @@ export const site = {
      * Quebra manual: CSS não conta para o JS onde a linha quebrou, e a
      * revelação é linha a linha. `title` segue inteiro no aria-label.
      */
-    titleLines: ["A história que", "só você", "pode contar"],
+    titleLines: [
+      "A história que",
+      "só você",
+      "pode contar",
+    ],
     titleHighlight: "você",
     subtitle:
       "Sua comunicação define o lugar que você ocupa. Aqui eu te ensino a transformar as suas vivências em histórias que conectam, emocionam e fazem quem te escuta lembrar de você.",
@@ -194,7 +230,11 @@ export const site = {
     quote:
       "Quer um conselho? Como vão julgar você de qualquer jeito, siga seu coração e faça o que te faz feliz.",
     tagline: "A palavra alimenta.",
-    chips: ["101 reflexões", "Selo Academia", "Editora Planeta"],
+    chips: [
+      "101 reflexões",
+      "Selo Academia",
+      "Editora Planeta",
+    ],
     /** Número gigante do fundo, puramente decorativo. */
     backdropNumber: "101",
     coverAlt:
@@ -211,9 +251,18 @@ export const site = {
     subtitle:
       "Entre no grupo da Lili no WhatsApp e receba, direto no seu celular, mensagens de fé, gentileza e coragem — e fique sabendo antes de todo mundo das novas turmas, lançamentos e encontros.",
     benefits: [
-      { icon: "Sun", text: "Bons-dias para começar o dia com o coração leve" },
-      { icon: "Bell", text: "Avisos de turmas e lançamentos em primeira mão" },
-      { icon: "Sparkles", text: "Bastidores e conteúdos que não vão para o feed" },
+      {
+        icon: "Sun",
+        text: "Bons-dias para começar o dia com o coração leve",
+      },
+      {
+        icon: "Bell",
+        text: "Avisos de turmas e lançamentos em primeira mão",
+      },
+      {
+        icon: "Sparkles",
+        text: "Bastidores e conteúdos que não vão para o feed",
+      },
     ],
     /** O href vem de links.whatsapp. */
     cta: { label: "Quero entrar no grupo" },
@@ -239,7 +288,8 @@ export const site = {
       "Conte a sua história",
       "Fé e gentileza",
     ],
-    about: "Comunicadora, escritora e storyteller. De Salvador para o Brasil.",
+    about:
+      "Comunicadora, escritora e storyteller. De Salvador para o Brasil.",
     navTitle: "Navegue",
     socialTitle: "Onde me encontrar",
     social: [
@@ -261,8 +311,9 @@ export const site = {
     },
     // Ano fixo de propósito: new Date() num módulo lido por client component
     // causa divergência de hidratação na virada do ano.
-    copyright: "© 2026 Lili Almeida. Todos os direitos reservados.",
-    credit: "Desenvolvido por [seu nome]", // TODO: seu nome
+    copyright:
+      "© 2026 Lili Almeida. Todos os direitos reservados.",
+    credit: "Desenvolvido por Mateus Almeida",
     backToTop: "Voltar ao topo",
   },
 

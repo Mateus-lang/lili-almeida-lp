@@ -12,7 +12,7 @@ const { chat } = site.community;
 const TYPING_MS = 900;
 const PAUSE_MS = 500;
 
-function TypingBubble() {
+function TypingBubble({ ativo }: { ativo: boolean }) {
   return (
     <motion.div
       layout
@@ -26,7 +26,7 @@ function TypingBubble() {
         {[0, 1, 2].map((dot) => (
           <motion.span
             key={dot}
-            animate={{ y: [0, -4, 0] }}
+            animate={ativo ? { y: [0, -4, 0] } : undefined}
             transition={{
               duration: 0.9,
               ease: "easeInOut",
@@ -45,6 +45,10 @@ export function PhoneChat({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion() ?? false;
   const inView = useInView(ref, { once: true, amount: 0.5 });
+  // Observer separado, sem `once`: o de cima não pode reiniciar a conversa,
+  // mas a flutuação precisa parar quando o celular sai da tela.
+  const visivel = useInView(ref, { amount: 0.2 });
+  const animar = visivel && !reduced;
 
   // Estado inicial = o que o servidor renderiza, então não há divergência
   // de hidratação quando a página recarrega no meio da sequência.
@@ -95,7 +99,7 @@ export function PhoneChat({ className }: { className?: string }) {
         {/* Flutuação num elemento próprio: no mesmo `y` da entrada, uma
             sobrescreveria a outra. */}
         <motion.div
-          animate={reduced ? undefined : { y: [0, -12, 0] }}
+          animate={animar ? { y: [0, -12, 0] } : undefined}
           transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
           className="mx-auto w-[280px] lg:w-[320px]"
         >
@@ -151,7 +155,7 @@ export function PhoneChat({ className }: { className?: string }) {
                 })}
 
                 <AnimatePresence mode="popLayout">
-                  {typing ? <TypingBubble key="typing" /> : null}
+                  {typing ? <TypingBubble key="typing" ativo={animar} /> : null}
                 </AnimatePresence>
               </div>
             </div>
